@@ -60,8 +60,8 @@ LinkedList.prototype.removeNode = function (value) {
         this.head = this.head.next;
         return;
     }
-    var prev = this.head;
-    var current = this.head.next;
+    let prev = this.head;
+    let current = this.head.next;
     while (current !== null){
         if(current.value.toString() !== value.toString()){
             prev = current;
@@ -112,8 +112,8 @@ LinkedList.prototype.count = function (node) {
  * Time complexity would be 0(n/2)
  */
 LinkedList.prototype.findMiddle = function () {
-    var slow_node = this.head;
-    var fast_node = this.head;
+    let slow_node = this.head;
+    let fast_node = this.head;
     while(fast_node !== null && fast_node.next !== null){
         fast_node = fast_node.next.next;
         slow_node = slow_node.next;
@@ -127,9 +127,9 @@ LinkedList.prototype.findMiddle = function () {
  * @returns {null|*}
  */
 LinkedList.prototype.getNodeFromLast = function(k) {
-    var f_pointer = this.head;
-    var count = 0;
-    var s_pointer = this.head;
+    let f_pointer = this.head;
+    let count = 0;
+    let s_pointer = this.head;
     while(f_pointer !== null){
         if(count < k){
             count++;
@@ -150,8 +150,8 @@ LinkedList.prototype.getNodeFromLast = function(k) {
  */
 LinkedList.prototype.reverseLinkedList = function (node, prev) {
     if(node === null) return prev;
-    var next = node.next;
-    var curt = node;
+    let next = node.next;
+    let curt = node;
     curt.next = prev;
     return LinkedList.prototype.reverseLinkedList.call(null,next, curt);
 };
@@ -162,9 +162,9 @@ LinkedList.prototype.reverseLinkedList = function (node, prev) {
  * @returns {*}
  */
 LinkedList.prototype.reverseLinkedList2 = function () {
-    var next = null;
-    var curt = this.head;
-    var prev = null;
+    let next = null;
+    let curt = this.head;
+    let prev = null;
     while(curt !== null){
         next = curt.next;
         curt.next = prev;
@@ -181,10 +181,10 @@ LinkedList.prototype.reverseLinkedList2 = function () {
  * @returns {*}
  */
 LinkedList.prototype.reverseKNode = function (node, k) {
-    var curt = node;
-    var prev = null;
-    var next = null;
-    var count = 0;
+    let curt = node;
+    let prev = null;
+    let next = null;
+    let count = 0;
     while (curt !== null && count < k){
         next = curt.next;
         curt.next = prev;
@@ -202,8 +202,8 @@ LinkedList.prototype.reverseKNode = function (node, k) {
  * @returns {boolean}
  */
 LinkedList.prototype.detectLoop = function () {
-    var f_Pointer = this.head;
-    var s_Pointer = this.head;
+    let f_Pointer = this.head;
+    let s_Pointer = this.head;
     while (s_Pointer !== null && s_Pointer.next !== null){
         f_Pointer = f_Pointer.next;
         s_Pointer = s_Pointer.next.next;
@@ -217,26 +217,24 @@ LinkedList.prototype.detectLoop = function () {
         return false;
 };
 
-
-LinkedList.prototype.mergeTwoSortedList = function (list2) {
-    var list1 = this.head;
-    if(list1 === null) return list2;
-    if(list2 === null) return list1;
-    if(list1 === list2) return list1;
-    var rs = new LinkedList();
-    var node1 = list1;
-    var node2 = list2;
-    console.log(list2, list1);
-    while (node1 !== null && node2 !== null){
-        if(node1.value < node2.value){
-            rs.addNode(node1.value);
-            node1 = node1.next;
-        }else{
-            rs.addNode(node2.value);
-            node2 = node2.next;
-        }
+/**
+ * To merge two sorted list via recursion.
+ * @param n1
+ * @param n2
+ * @returns {*}
+ */
+LinkedList.prototype.mergeTwoSortedList = function (n1, n2) {
+    let rs = null;
+    if(n1 === n2) return n1;
+    if(n1 === null) return n2;
+    if(n2 === null) return n1;
+    if(n1.value < n2.value){
+        rs = n1;
+        rs.next = LinkedList.prototype.mergeTwoSortedList.call(null, n1.next, n2);
+    }else{
+        rs = n2;
+        rs.next = LinkedList.prototype.mergeTwoSortedList.call(null, n1, n2.next);
     }
-    console.log(rs, node1, node2);
     return rs;
 };
 
@@ -257,22 +255,22 @@ function main() {
     console.log('Reverse via loop approach - ',list.reverseLinkedList2());
     console.log('Reverse Alternative 2 node - ', list.reverseKNode(list.head, 2));
     console.log('checked loop - ',list.detectLoop());
-    */
     let list1 = new LinkedList();
     list1.addNode(4);
     list1.addNode(8);
     list1.addNode(10);
     list1.addNode(12);
     list1.addNode(20);
-
     let list2 = new LinkedList();
     list2.addNode(1);
     list2.addNode(8);
     list2.addNode(9);
     list2.addNode(13);
     list2.addNode(19);
-    console.log(list1, list2);
-    let rs = list1.mergeTwoSortedList(list2.head);
+    let rs = new LinkedList();
+    rs.head = LinkedList.prototype.mergeTwoSortedList.call(null,list1.head,list2.head);
     rs.traverse();
+    */
+
 }
 main();
