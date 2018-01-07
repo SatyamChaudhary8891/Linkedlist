@@ -238,6 +238,99 @@ LinkedList.prototype.mergeTwoSortedList = function (n1, n2) {
     return rs;
 };
 
+/**
+ * To compare lists
+ * @param n1
+ * @param n2
+ * @returns {*}
+ */
+LinkedList.prototype.compareLinkedList = function (n1, n2) {
+    if(n2 === null && n1 === null) return true;
+    if(n1.value === n2.value)
+        return LinkedList.prototype.compareLinkedList(n1.next, n2.next);
+    else
+        return false;
+};
+
+/**
+ * To check palindrome
+ * @returns {*}
+ */
+LinkedList.prototype.checkPalindrome = function () {
+    let s_p = this.head;
+    let f_p = this.head;
+    let p_s_p = null;
+    let second_head = new LinkedList();
+    while (f_p !== null && f_p.next !== null){
+        p_s_p = s_p;
+        s_p = s_p.next;
+        f_p = f_p.next.next;
+    }
+    if(f_p !== null){
+        second_head.head = LinkedList.prototype.reverseLinkedList(s_p.next, null);
+        p_s_p.next = null;
+    }else {
+        second_head.head = LinkedList.prototype.reverseLinkedList(s_p, null);
+        p_s_p.next = null;
+    }
+    console.log(this.head, second_head);
+    return LinkedList.prototype.compareLinkedList(this.head, second_head.head);
+};
+
+/**
+ * To remove duplicates from sorted list
+ */
+LinkedList.prototype.removeDuplicate = function () {
+    let curt = this.head;
+    let prev = null;
+    while (curt !== null){
+        prev = curt;
+        curt = curt.next;
+        if(prev.value === curt.value){
+            prev.next = curt.next;
+        }
+    }
+};
+
+/**
+ * To remove duplicates from unsorted list
+ */
+LinkedList.prototype.removeDuplicateUnsorted = function () {
+    let map = {};
+    let curt = this.head;
+    let prev = null;
+    while (curt !== null){
+        if(map[curt.value])
+            prev.next = curt.next;
+        else
+            map[curt.value] = 1;
+        prev = curt;
+        curt = curt.next;
+    }
+};
+
+/**
+ * To get common nodes
+ * @param h1
+ * @param h2
+ * @returns {LinkedList}
+ */
+LinkedList.prototype.intersectNode = function (h1, h2) {
+    let curt1 = h1;
+    let map = {};
+    while (curt1 !== null){
+        map[curt1.value] = 1;
+        curt1 = curt1.next;
+    }
+    let curt2 = h2;
+    let rs = new LinkedList();
+    while (curt2 !== null){
+        if(map[curt2.value])
+            rs.addNode(curt2.value);
+        curt2 = curt2.next;
+    }
+    return rs
+};
 
 function main() {
     let list = new LinkedList();
@@ -245,7 +338,7 @@ function main() {
     list.addNode("Papa");
     list.addNode("Son");
     list.addNode("Gson");
-    list.addNode("Thankyou");
+    list.addNode("Papa");
     list.traverse();
     /*
     list.reverseTraverse(list.head);
@@ -270,7 +363,13 @@ function main() {
     let rs = new LinkedList();
     rs.head = LinkedList.prototype.mergeTwoSortedList.call(null,list1.head,list2.head);
     rs.traverse();
+    console.log(list.checkPalindrome());
+    list.removeDuplicateUnsorted();
+    list.traverse();
+    let rs = LinkedList.prototype.intersectNode(list1.head, list2.head);
+    rs.traverse();
     */
+
 
 }
 main();
