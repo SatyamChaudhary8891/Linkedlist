@@ -5,28 +5,26 @@ Following are the covered topic
 - Add Node
 - Traverse Node
 - Reverse Traverse Node
-- Remove Node
-- Search Node( Find Node)
 - Count number of node in linked list
 - Find middle of a linked list
 - Find kth element from the last in a linked list
 */
 
-
-function LinkedList(){
+function LinkedList() {
     this.head = null;
-};
+}
 
 LinkedList.prototype.addNode = function (data) {
     let new_node = {
         data: data,
         next: null
     };
+
     if(this.head === null)
         this.head = new_node;
     else{
         let last_node = this.head;
-        while(last_node.next !== null){
+        while (last_node.next !== null){
             last_node = last_node.next;
         }
         last_node.next = new_node;
@@ -44,62 +42,65 @@ LinkedList.prototype.traverse = function () {
 LinkedList.prototype.reverseTraverse = function (node) {
     if(node === null)
         return node;
-    LinkedList.prototype.reverseTraverse.call(null, node.next);
+    LinkedList.prototype.reverseTraverse(node.next);
     console.log(node.data);
 };
 
-LinkedList.prototype.getCount = function (node) {
+LinkedList.prototype.count = function(node){
     if(node === null)
         return 0;
-    return 1+ LinkedList.prototype.getCount.call(null, node.next);
+    return 1+ LinkedList.prototype.count(node.next);
 };
 
 LinkedList.prototype.getMiddle = function () {
-    let f_pointer = this.head;
-    let s_pointer = this.head;
-    while(f_pointer !== null && f_pointer.next !== null){
-        s_pointer = s_pointer.next;
-        f_pointer = f_pointer.next.next;
+    let slow_p = this.head;
+    let fast_p = this.head;
+    while (fast_p !== null && fast_p.next !== null){
+        slow_p = slow_p.next;
+        fast_p = fast_p.next.next;
     }
-    return s_pointer;
+    return slow_p;
 };
 
-LinkedList.prototype.getKthNode = function (k) {
+LinkedList.prototype.getKthElement = function (k) {
     let curt = this.head;
     let count = 0;
-    let result = null;
+    let resultant = null;
     while (curt !== null){
         if(count < k){
             curt = curt.next;
         }else{
-            if(result === null)
-                result = this.head;
-            result = result.next;
             curt = curt.next;
+            if(resultant === null)
+                resultant = this.head;
+            resultant = resultant.next;
         }
         count++;
     }
-    return result;
+    return resultant;
 };
 
 
 function main() {
     let list = new LinkedList();
     list.addNode(4);
-    list.addNode(8);
     list.addNode(2);
-    list.addNode(9);
-    list.addNode(1);
-    list.traverse();
+    list.addNode(8);
+    list.addNode(6);
+    list.addNode(5);
+    //list.traverse();
     //list.reverseTraverse(list.head);
-    //list.removeNode(9);
-    //console.log(list.searchNode(2));
-    //console.log(list.getCount(list.head));
+    //console.log(list.count(list.head));
     //console.log(list.getMiddle());
-    //console.log(list.getKthNode(2));
+    console.log(list.getKthElement(1));
 }
 
 main();
+
+
+
+
+
 
 
 
