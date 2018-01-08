@@ -11,6 +11,8 @@ Following are the covered topic
 - Remove node
 - Search node
 - Reverse the linked list
+- Reverse kth element in linked list
+- Merge two sorted linked list
 */
 
 function LinkedList() {
@@ -174,6 +176,51 @@ LinkedList.prototype.recursionReverseLinkedList = function (curt, prev) {
     return LinkedList.prototype.recursionReverseLinkedList(next, prev);
 };
 
+/**
+ * To get reverse the kth element in linked list
+ * @param node
+ * @param k
+ * @returns {*}
+ */
+LinkedList.prototype.reverseKthElement = function (node, k) {
+    let curt = node;
+    let next = null;
+    let prev = null;
+    let count =0;
+    while(curt !== null && count < k){
+        next = curt.next;
+        curt.next = prev;
+        prev = curt;
+        curt = next;
+        count++;
+    }
+    if(next !== null)
+        node.next = LinkedList.prototype.reverseKthElement(next, k);
+    return prev;
+};
+
+/**
+ * To merge the sorted list
+ * @param node1
+ * @param node2
+ * @returns {*}
+ */
+LinkedList.prototype.mergeSortedList = function (node1, node2) {
+    if(node2 === node1) return node2;
+    if(node1 === null) return node2;
+    if(node2 === null) return node1;
+    let rs = null;
+    if(node1.data < node2.data){
+        rs = node1;
+        rs.next = LinkedList.prototype.mergeSortedList(node1.next, node2);
+    }else{
+        rs = node2;
+        rs.next = LinkedList.prototype.mergeSortedList(node1, node2.next);
+    }
+    return rs
+};
+
+
 function main() {
     let list = new LinkedList();
     list.addNode(4);
@@ -193,6 +240,24 @@ function main() {
     //reversedList.head = list.loopReverseLinkedList();
     reversedList.head = list.recursionReverseLinkedList(list.head, null);
     reversedList.traverse();
+    let reversedList = new LinkedList();
+    reversedList.head = list.reverseKthElement(list.head, 3);
+    reversedList.traverse();
+    let list1 = new LinkedList();
+    list1.addNode(1);
+    list1.addNode(2);
+    list1.addNode(3);
+    list1.addNode(4);
+    list1.addNode(5);
+    let list2 = new LinkedList();
+    list2.addNode(1);
+    list2.addNode(2);
+    list2.addNode(3);
+    list2.addNode(4);
+    list2.addNode(5);
+    let list3 = new LinkedList();
+    list3.head = LinkedList.prototype.mergeSortedList(list2.head,list1.head);
+    list3.traverse();
     */
 
 }
